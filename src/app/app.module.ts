@@ -4,6 +4,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home'
 import { AddItemPage } from '../pages/add-item/add-item'
 import { ItemDetailPage } from '../pages/item-detail/item-detail';
+import { Storage } from '@ionic/storage';
+import { Data } from '../providers/data';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,6 @@ import { ItemDetailPage } from '../pages/item-detail/item-detail';
     AddItemPage,
     ItemDetailPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Storage, Data]
 })
 export class AppModule {}
