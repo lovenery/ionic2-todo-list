@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, NavController } from 'ionic-angular';
+import { ModalController, NavController, AlertController } from 'ionic-angular';
 import { AddItemPage } from '../add-item/add-item'
 import { ItemDetailPage } from '../item-detail/item-detail';
 import { Data } from '../../providers/data';
@@ -12,7 +12,7 @@ export class HomePage {
 
   public items = [];
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public dataService: Data) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public dataService: Data, private alertCtrl: AlertController) {
     this.dataService.getData().then((todos) => {
       if(todos){
         this.items = JSON.parse(todos);
@@ -53,12 +53,30 @@ export class HomePage {
   }
 
   deleteItem(item){
-    for(let i = 0; i < this.items.length; i++) {
-      if(this.items[i] == item){
-        this.items.splice(i, 1);
-      }
-    }
-    this.dataService.save(this.items);
+    let alert = this.alertCtrl.create({
+      title: 'Delete Item',
+      subTitle: 'Do you really want do it?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: data => {
+            // delete
+            for(let i = 0; i < this.items.length; i++) {
+              if(this.items[i] == item){
+                this.items.splice(i, 1);
+              }
+            }
+            this.dataService.save(this.items);
+          }
+        }
+      ]    });
+    alert.present();
   }
 
 }
